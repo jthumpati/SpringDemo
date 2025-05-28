@@ -1,6 +1,7 @@
 package com.example.SpringDemo.service;
 
 import com.example.SpringDemo.entities.Student;
+import com.example.SpringDemo.exception.NotFoundException;
 import com.example.SpringDemo.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,7 +25,8 @@ public class StudentService {
 
     public Student getByStudentId(Long studentId){
         Optional<Student> optionalStudent = studentRepository.findById(studentId);
-        return optionalStudent.orElse(null);
+        return optionalStudent.orElseThrow(() ->
+             new NotFoundException("Student with the id "+ studentId +" " + "is not found"));
     }
 
     public Student updateStudent(Student student){
